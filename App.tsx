@@ -1,81 +1,46 @@
-import React from 'react';
-import { 
-  StyleSheet, 
-  Text, 
-  View, 
-  StatusBar, 
-  ActivityIndicator, 
-  Platform 
-} from 'react-native';
+// import AppNavigator from './routes';
 
-export default class App extends React.Component {
+// export default function App() {
+//   return <AppNavigator />;
+// }
 
-  state = {
-    loading: false,
-    error: false,
-  };
+import * as React from 'react';
+import { Text, View, Button } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-  async componentDidMount() {
-    this.setState({
-      loading: false,
-      error: false,
-    });
-  }
-
-  render() {
-
-    if (this.state.error) {
-      return (
-        <Text>Load Page Failure...</Text>
-      );
-    }
-
-    return (
-      
-      <View style={styles.container}>
-        <StatusBar barStyle="light-content"
-        />
-        <ActivityIndicator
-          animating={this.state.loading}
-          color="white"
-          size="large"
-        />
-        <Text>Open up App.tsx to start working on your app!</Text>
-      </View>
-    );  
-  }
-  
+function HomeScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Home!</Text>
+      <Button
+        title="Go to profile"
+        onPress={() => navigation.jumpTo('Profile', { owner: 'Michaś' })}
+      />
+    </View>
+  );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textStyle: {
-     fontFamily: 
-       Platform.OS === 'ios' ? 'AvenirNext-Regular' : 'Roboto',
-  },
-  title: {
-    fontSize: 20,
-    fontFamily: 
-       Platform.OS === 'ios' ? 'AvenirNext-Regular' : 'Roboto',
-  },
-  subTitle: {
-    fontSize: 18,
-    fontFamily: 
-       Platform.OS === 'ios' ? 'AvenirNext-Regular' : 'Roboto',
-  },
-  normalText: {
-    fontSize: 14,
-    fontFamily: 
-       Platform.OS === 'ios' ? 'AvenirNext-Regular' : 'Roboto',
-  },
-  smallText: {
-    fontSize: 12,
-    fontFamily: 
-       Platform.OS === 'ios' ? 'AvenirNext-Regular' : 'Roboto',
-  }
-});
+function ProfileScreen({ route }) {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Profile!</Text>
+      <Text>
+        {route?.params?.owner ? `${route.params.owner}'s Profile` : ''}
+      </Text>
+    </View>
+  );
+}
+
+const Tab = createBottomTabNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Profile" component={ProfileScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}

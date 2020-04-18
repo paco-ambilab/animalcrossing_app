@@ -8,25 +8,24 @@ import {
   Platform 
 } from 'react-native';
 
-import IslandModel from '../models/islandModel';
+import BuyModel from '../models/BuyModel';
 
 type State = {
   loading: Boolean,
   error: Boolean,
-  items: IslandModel[],
 }
 
 type Props = {
 	style: StyleSheet,
-	islandsForItem: IslandModel[],
-	onPressIsland: (id: String) => void,
+	buysForItem: BuyModel[],
+	onPressBuy: (id: String) => void,
 }
 
-export default class Islands extends React.Component<Props, State> {
+export default class Buys extends React.Component {
 
-  constructor(props: Props) {
-    super(props);
-  }
+  // constructor(props: Props) {
+  //   super(props);
+  // }
 
   state = {
     loading: false,
@@ -35,22 +34,22 @@ export default class Islands extends React.Component<Props, State> {
   };
 
   async componentDidMount() {
-    this.handleFetchIslands('');
+    this.handleFetchBuys('');
   }
 
-  handleFetchIslands = (search) => {
+  handleFetchBuys = (search) => {
   	this.setState({
       loading: true,
       error: false,
       items: [],
     });
 
-    fetchIslands({token: '', search: search})
+    fetchBuys({token: '', search: search})
     .then(response => response.json())
     .then(object => {
-      return object.data.islands.map(island => { 
+      return object.data.islands.map(buy => { 
         return(
-          {"islandOwner": island.accountInfo.switchID, "location": island.location, "hashTagDescription": island.hashTagDescription, "createTime": island.createTime}
+          {"itemName": buy.itemName, "unitPrice": buy.unitPrice, "numberOfItem": buy.numberOfItem, "islandPassCode": buy.islandPassCode, "createTime": buy.createTime}
         ) 
       })
     })
@@ -73,7 +72,7 @@ export default class Islands extends React.Component<Props, State> {
 
   render() {
 
-  	const { islandsForItem, onPressIsland, style } = this.props;
+  	const { buysForItem, onPressIsland, style } = this.props;
     const { loading, error, items } = this.state;
 
   	if (this.state.error) {
@@ -86,7 +85,7 @@ export default class Islands extends React.Component<Props, State> {
 
   	return (
 	  <View>
-		<Text>Islands page...</Text>
+		<Text>Buy page...</Text>
 	  </View>
   	);
   }
