@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import BuyModel from '../models/BuyModel';
+import { fetchBuys } from '../utils/api';
 
 type State = {
   loading: Boolean,
@@ -37,7 +38,7 @@ export default class Buys extends React.Component {
     this.handleFetchBuys('');
   }
 
-  handleFetchBuys = (search) => {
+  handleFetchBuys = (search: String) => {
   	this.setState({
       loading: true,
       error: false,
@@ -47,7 +48,7 @@ export default class Buys extends React.Component {
     fetchBuys({token: '', search: search})
     .then(response => response.json())
     .then(object => {
-      return object.data.islands.map(buy => { 
+      return object.data.buys.map(buy => { 
         return(
           {"itemName": buy.itemName, "unitPrice": buy.unitPrice, "numberOfItem": buy.numberOfItem, "islandPassCode": buy.islandPassCode, "createTime": buy.createTime}
         ) 

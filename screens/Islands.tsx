@@ -10,6 +10,8 @@ import {
 
 import IslandModel from '../models/islandModel';
 
+import { fetchIslands } from '../utils/api';
+
 type State = {
   loading: Boolean,
   error: Boolean,
@@ -38,7 +40,7 @@ export default class Islands extends React.Component<Props, State> {
     this.handleFetchIslands('');
   }
 
-  handleFetchIslands = (search) => {
+  handleFetchIslands = (search: String) => {
   	this.setState({
       loading: true,
       error: false,
