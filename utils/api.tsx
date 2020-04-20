@@ -4,7 +4,7 @@ import IslandModel from '../models/islandModel';
 
 const domain = 'https://78045f5b-8021-4a75-94bf-14aaacacdde0.api.beta.kintohub.com/animalcrossingserver/graphql/'
 
-const fetchEx = (url="", params={}, timeout=10000) => {
+const fetchEx = (url="", params={}, timeout=20000) => {
     let isTimeout = false;
     return new Promise(function(resolve, reject) {
         const TO = setTimeout(function() {

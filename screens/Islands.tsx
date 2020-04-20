@@ -1,5 +1,7 @@
 import React from 'react';
 import { 
+  ListView,
+  ListViewDataSource,
   StyleSheet, 
   Text, 
   View, 
@@ -16,13 +18,17 @@ type State = {
   loading: Boolean,
   error: Boolean,
   items: IslandModel[],
+  fakeDataSource?: ListViewDataSource,
 }
 
 type Props = {
-	style: StyleSheet,
-	islandsForItem: IslandModel[],
-	onPressIsland: (id: String) => void,
+	style?: StyleSheet,
+	islandsForItem?: IslandModel[],
+	onPressIsland?: (id: String) => void,
 }
+
+const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+const listViewDataSource = ds.cloneWithRows(['row 1', 'row 2', 'row 3', 'row 4']);
 
 export default class Islands extends React.Component<Props, State> {
 
@@ -34,6 +40,7 @@ export default class Islands extends React.Component<Props, State> {
     loading: false,
     error: false,
     items: [],
+    fakeDataSource: listViewDataSource
   };
 
   async componentDidMount() {
@@ -41,10 +48,12 @@ export default class Islands extends React.Component<Props, State> {
   }
 
   handleFetchIslands = (search: String) => {
+    
   	this.setState({
       loading: true,
       error: false,
       items: [],
+      fakeDataSource: listViewDataSource,
     });
 
     fetchIslands({token: '', search: search})
@@ -61,6 +70,8 @@ export default class Islands extends React.Component<Props, State> {
       this.setState({
         loading: false,
         error: false,
+        items: [],
+        fakeDataSource: listViewDataSource,
       });
     })
     .catch(error => {
@@ -69,6 +80,7 @@ export default class Islands extends React.Component<Props, State> {
         loading: false,
         error: true,
         items: [],
+        fakeDataSource: listViewDataSource,
       });
     });
   }
@@ -87,9 +99,13 @@ export default class Islands extends React.Component<Props, State> {
     }
 
   	return (
-	  <View>
-		<Text>Islands page...</Text>
-	  </View>
+	 //  <View>
+		// <Text>Islands page...</Text>
+	 //  </View>
+       <ListView
+        dataSource={this.state.fakeDataSource!}
+        renderRow={(rowData) => <Text>{rowData}</Text>}
+      />
   	);
   }
 }
