@@ -27,11 +27,15 @@ const Tab = createBottomTabNavigator();
 function IslandsScreen({ navigation, route }) {
   const [count, setCount] = React.useState(0);
 
+  const handleHeaderRightOnPress = () => {
+    navigation.navigate('User');
+  }
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => <Text>Islands</Text>,
       headerRight: () => (
-        <ImageButton onPress={() => {}} imageSource={require('./assets/icon.png')} />
+        <ImageButton onPress={handleHeaderRightOnPress} imageSource={require('./assets/icon.png')} />
       ),
     });
   }, [navigation, route]);
@@ -44,12 +48,16 @@ function IslandsScreen({ navigation, route }) {
 function IslandDetailScreen({ navigation, route }) {
   const [count, setCount] = React.useState(0);
 
+  const handleHeaderRightOnPress = () => {
+    navigation.navigate('User');
+  }
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => <Text>IslandDetail</Text>,
-      // headerRight: () => (
-      //   <ImageButton onPress={() => {}} imageSource={require('./assets/icon.png')} />
-      // ),
+      headerRight: () => (
+        <ImageButton onPress={handleHeaderRightOnPress} imageSource={require('./assets/icon.png')} />
+      ),
     });
   }, [navigation, route]);
 
@@ -61,11 +69,15 @@ function IslandDetailScreen({ navigation, route }) {
 function BuysScreen({ navigation, route }) {
   const [count, setCount] = React.useState(0);
 
+  const handleHeaderRightOnPress = () => {
+    navigation.push('User');
+  }
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => <Text>Buys</Text>,
       headerRight: () => (
-        <ImageButton onPress={() => {}} imageSource={require('./assets/icon.png')} />
+        <ImageButton onPress={handleHeaderRightOnPress} imageSource={require('./assets/icon.png')} />
       ),
     });
   }, [navigation, route]);
@@ -78,17 +90,21 @@ function BuysScreen({ navigation, route }) {
 function BuyDetailScreen({ navigation, route }) {
   const [count, setCount] = React.useState(0);
 
+  const handleHeaderRightOnPress = () => {
+    navigation.navigate('User');
+  }
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => <Text>BuyDetail</Text>,
-      // headerRight: () => (
-      //   <ImageButton onPress={() => {}} imageSource={require('./assets/icon.png')} />
-      // ),
+      headerRight: () => (
+        <ImageButton onPress={handleHeaderRightOnPress} imageSource={require('./assets/icon.png')} />
+      ),
     });
   }, [navigation, route]);
 
   return (
-    <BuyDetail/>
+    <BuyDetail navigator={navigation}/>
   );
 }
 
@@ -105,7 +121,7 @@ function UserScreen({ navigation, route }) {
   }, [navigation, route]);
 
   return (
-    <User/>
+    <User navigator={navigation}/>
   );
 }
 

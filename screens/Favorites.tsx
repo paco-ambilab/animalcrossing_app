@@ -14,7 +14,8 @@ type State = {
 }
 
 type Props = {
-	style: StyleSheet,
+	style?: StyleSheet,
+  navigator?: any,
 }
 
 export default class Favorites extends React.Component<Props, State> {

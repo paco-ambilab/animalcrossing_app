@@ -15,6 +15,7 @@ type State = {
 
 type Props = {
 	style?: StyleSheet,
+  navigator?: any,
 }
 
 export default class IslandDetail extends React.Component<Props, State> {

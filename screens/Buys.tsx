@@ -1,6 +1,6 @@
 import React from 'react';
 import { 
-  ListView,
+  FlatList,
   ListViewDataSource,
   StyleSheet, 
   Text, 
@@ -8,17 +8,18 @@ import {
   ViewPropTypes,
   ActivityIndicator, 
   Platform ,
-  TouchableOpacity
+  TouchableOpacity,
+  SafeAreaView
 } from 'react-native';
 
 import BuyModel from '../models/BuyModel';
+
 import { fetchBuys } from '../utils/api';
 
 type State = {
   loading: Boolean,
   error: Boolean,
   items: BuyModel[],
-  dataSource?: ListViewDataSource,
 }
 
 type Props = {
@@ -28,15 +29,12 @@ type Props = {
 	onPressBuy?: (id: String) => void,
 }
 
-const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
 export default class Buys extends React.Component<Props, State> {
 
   state = {
     loading: false,
     error: false,
     items: [],
-    dataSource: ds.cloneWithRows([]),
   };
 
   async componentDidMount() {
@@ -48,7 +46,7 @@ export default class Buys extends React.Component<Props, State> {
       loading: true,
       error: false,
       items: [],
-      dataSource: ds.cloneWithRows([]),
+
     });
 
     fetchBuys({token: '', search: search})
@@ -67,7 +65,6 @@ export default class Buys extends React.Component<Props, State> {
         loading: false,
         error: false,
         items: buys,
-        dataSource: ds.cloneWithRows(buys),
       });
     })
     .catch(error => {
@@ -76,7 +73,6 @@ export default class Buys extends React.Component<Props, State> {
         loading: false,
         error: true,
         items: [],
-        dataSource: ds.cloneWithRows([]),
       });
     });
   }
@@ -86,6 +82,16 @@ export default class Buys extends React.Component<Props, State> {
     this.props.navigator.push('BuyDetail')
   }
 
+  renderRefreshControl = () => {
+    this.setState({ loading: true })
+
+    this.setState({ 
+      loading: false, 
+      items : this.state.items 
+    });
+
+  }
+  
   render() {
 
     if (this.state.error) {
@@ -97,19 +103,23 @@ export default class Buys extends React.Component<Props, State> {
     }
 
     return (
-      <ListView
-        enableEmptySections={true}
-        dataSource={this.state.dataSource!}
-        renderRow={(rowData,sectionID, rowID, highlightRow) => {
-         return(
+      <SafeAreaView>
+       <FlatList
+        data={this.state.items}
+        refreshing={this.state.loading}
+        onRefresh={this.renderRefreshControl}
+        renderItem={({item, index, separators}) => {
+          const buy = item as BuyModel
+          return(
            <View>
-             <TouchableOpacity onPress={() => this.handleItemOnPress(rowID)}>
-               <Text>{rowData.itemName}</Text>
+             <TouchableOpacity onPress={() => this.handleItemOnPress(index)}>
+               <Text>{buy.itemName}</Text>
              </TouchableOpacity>
            </View>
          ); 
         }}
       />
+    </SafeAreaView>
     );
   }
 }

@@ -13,9 +13,10 @@ interface State {
 
 
 export default class ImageButton extends React.Component<Props, State> {
+
   render() {
     return (
-      <TouchableOpacity style={styles.touchable}>
+      <TouchableOpacity style={styles.touchable} onPress={this.props.onPress}>
         <View style={styles.view}>
           <Text style={styles.text}>{this.props.title}</Text>
         </View>
