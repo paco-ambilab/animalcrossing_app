@@ -1,4 +1,7 @@
-export default const styles = StyleSheet.create({
+import {Platform, StyleSheet} from 'react-native';
+
+
+ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -30,3 +33,5 @@ export default const styles = StyleSheet.create({
        Platform.OS === 'ios' ? 'AvenirNext-Regular' : 'Roboto',
   }
 });
+
+ export default status;

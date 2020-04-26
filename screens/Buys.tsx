@@ -1,11 +1,14 @@
 import React from 'react';
 import { 
+  ListView,
+  ListViewDataSource,
   StyleSheet, 
   Text, 
   View, 
   ViewPropTypes,
   ActivityIndicator, 
-  Platform 
+  Platform ,
+  TouchableOpacity
 } from 'react-native';
 
 import BuyModel from '../models/BuyModel';
@@ -14,24 +17,26 @@ import { fetchBuys } from '../utils/api';
 type State = {
   loading: Boolean,
   error: Boolean,
+  items: BuyModel[],
+  dataSource?: ListViewDataSource,
 }
 
 type Props = {
-	style: StyleSheet,
-	buysForItem: BuyModel[],
-	onPressBuy: (id: String) => void,
+  navigator?: any,
+	style?: StyleSheet,
+	buysForItem?: BuyModel[],
+	onPressBuy?: (id: String) => void,
 }
 
-export default class Buys extends React.Component {
+const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-  // constructor(props: Props) {
-  //   super(props);
-  // }
+export default class Buys extends React.Component<Props, State> {
 
   state = {
     loading: false,
     error: false,
     items: [],
+    dataSource: ds.cloneWithRows([]),
   };
 
   async componentDidMount() {
@@ -43,22 +48,26 @@ export default class Buys extends React.Component {
       loading: true,
       error: false,
       items: [],
+      dataSource: ds.cloneWithRows([]),
     });
 
     fetchBuys({token: '', search: search})
     .then(response => response.json())
     .then(object => {
       return object.data.buys.map(buy => { 
-        return(
-          {"itemName": buy.itemName, "unitPrice": buy.unitPrice, "numberOfItem": buy.numberOfItem, "islandPassCode": buy.islandPassCode, "createTime": buy.createTime}
-        ) 
+        return new BuyModel(buy.id, buy.itemName, buy.unitPrice, buy.numberOfItem, buy.islandPassCode, buy.createTime)
+        // return(
+        //   {"itemName": buy.itemName, "unitPrice": buy.unitPrice, "numberOfItem": buy.numberOfItem, "islandPassCode": buy.islandPassCode, "createTime": buy.createTime}
+        // ) 
       })
     })
-    .then(islands => {
-      console.log(islands)
+    .then(buys => {
+      console.log(buys)
       this.setState({
         loading: false,
         error: false,
+        items: buys,
+        dataSource: ds.cloneWithRows(buys),
       });
     })
     .catch(error => {
@@ -67,27 +76,40 @@ export default class Buys extends React.Component {
         loading: false,
         error: true,
         items: [],
+        dataSource: ds.cloneWithRows([]),
       });
     });
   }
 
+  handleItemOnPress = (rowID: any) => {
+    console.log(this.state.items[rowID]);
+    this.props.navigator.push('BuyDetail')
+  }
+
   render() {
 
-  	const { buysForItem, onPressIsland, style } = this.props;
-    const { loading, error, items } = this.state;
-
-  	if (this.state.error) {
+    if (this.state.error) {
       return (
-      	<View>
+        <View>
           <Text>Load Page Failure...</Text>
         </View>
       );
     }
 
-  	return (
-	  <View>
-		<Text>Buy page...</Text>
-	  </View>
-  	);
+    return (
+      <ListView
+        enableEmptySections={true}
+        dataSource={this.state.dataSource!}
+        renderRow={(rowData,sectionID, rowID, highlightRow) => {
+         return(
+           <View>
+             <TouchableOpacity onPress={() => this.handleItemOnPress(rowID)}>
+               <Text>{rowData.itemName}</Text>
+             </TouchableOpacity>
+           </View>
+         ); 
+        }}
+      />
+    );
   }
 }

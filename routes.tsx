@@ -8,8 +8,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Islands from './screens/Islands';
+import IslandDetail from './screens/IslandDetail';
 import Buys from './screens/Buys';
-// import User from './screens/User';
+import BuyDetail from './screens/BuyDetail';
+
+import User from './screens/User';
 // import Favorites from './screens/Favorites';
 // import Feedback from './screens/Feedback';
 
@@ -19,7 +22,9 @@ import ImageButton from  './components/ImageButton';
 
 const Stack = createStackNavigator();
 
-function IslandsScreen({ navigation }) {
+const Tab = createBottomTabNavigator();
+
+function IslandsScreen({ navigation, route }) {
   const [count, setCount] = React.useState(0);
 
   React.useLayoutEffect(() => {
@@ -29,32 +34,83 @@ function IslandsScreen({ navigation }) {
         <ImageButton onPress={() => {}} imageSource={require('./assets/icon.png')} />
       ),
     });
-  }, [navigation, setCount]);
+  }, [navigation, route]);
 
   return (
-    <Islands />
+    <Islands navigator={navigation}/>
   );
 }
 
-function StackScreen() {
+function IslandDetailScreen({ navigation, route }) {
+  const [count, setCount] = React.useState(0);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => <Text>IslandDetail</Text>,
+      // headerRight: () => (
+      //   <ImageButton onPress={() => {}} imageSource={require('./assets/icon.png')} />
+      // ),
+    });
+  }, [navigation, route]);
+
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Islands"
-        component={IslandsScreen}
-        options={{}}
-      />
-    </Stack.Navigator>
+    <IslandDetail/>
   );
 }
 
+function BuysScreen({ navigation, route }) {
+  const [count, setCount] = React.useState(0);
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => <Text>Buys</Text>,
+      headerRight: () => (
+        <ImageButton onPress={() => {}} imageSource={require('./assets/icon.png')} />
+      ),
+    });
+  }, [navigation, route]);
 
-const Tab = createBottomTabNavigator();
-
-export default function AppNavigator() {
   return (
-    <NavigationContainer>
+    <Buys navigator={navigation}/>
+  );
+}
+
+function BuyDetailScreen({ navigation, route }) {
+  const [count, setCount] = React.useState(0);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => <Text>BuyDetail</Text>,
+      // headerRight: () => (
+      //   <ImageButton onPress={() => {}} imageSource={require('./assets/icon.png')} />
+      // ),
+    });
+  }, [navigation, route]);
+
+  return (
+    <BuyDetail/>
+  );
+}
+
+function UserScreen({ navigation, route }) {
+  const [count, setCount] = React.useState(0);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => <Text>User</Text>,
+      // headerRight: () => (
+      //   <ImageButton onPress={() => {}} imageSource={require('./assets/icon.png')} />
+      // ),
+    });
+  }, [navigation, route]);
+
+  return (
+    <User/>
+  );
+}
+
+function Tabs() {
+  return (
       <Tab.Navigator 
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -77,9 +133,21 @@ export default function AppNavigator() {
           inactiveTintColor: 'gray',
         }}
       >
-	    <Tab.Screen name="Islands" component={StackScreen} />
-	    <Tab.Screen name="Buys" component={Buys} />
+        <Tab.Screen name="Islands" component={IslandsScreen} />
+        <Tab.Screen name="Buys" component={BuysScreen} />
       </Tab.Navigator>
+  );
+}
+
+export default function AppNavigator() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="IslandsTab" component={Tabs} />
+        <Stack.Screen name="IslandDetail" component={IslandDetailScreen} />
+        <Stack.Screen name="BuyDetail" component={BuyDetailScreen} />
+        <Stack.Screen name="User" component={UserScreen} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

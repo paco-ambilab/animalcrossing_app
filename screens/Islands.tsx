@@ -7,7 +7,8 @@ import {
   View, 
   ViewPropTypes,
   ActivityIndicator, 
-  Platform 
+  Platform ,
+  TouchableOpacity
 } from 'react-native';
 
 import IslandModel from '../models/islandModel';
@@ -18,17 +19,18 @@ type State = {
   loading: Boolean,
   error: Boolean,
   items: IslandModel[],
-  fakeDataSource?: ListViewDataSource,
+  dataSource?: ListViewDataSource,
 }
 
 type Props = {
+  navigator?: any,
 	style?: StyleSheet,
 	islandsForItem?: IslandModel[],
 	onPressIsland?: (id: String) => void,
 }
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-const listViewDataSource = ds.cloneWithRows(['row 1', 'row 2', 'row 3', 'row 4']);
+// const listViewDataSource = ds.cloneWithRows(['row 1', 'row 2', 'row 3', 'row 4']);
 
 export default class Islands extends React.Component<Props, State> {
 
@@ -40,7 +42,7 @@ export default class Islands extends React.Component<Props, State> {
     loading: false,
     error: false,
     items: [],
-    fakeDataSource: listViewDataSource
+    dataSource: ds.cloneWithRows([]),
   };
 
   async componentDidMount() {
@@ -53,16 +55,14 @@ export default class Islands extends React.Component<Props, State> {
       loading: true,
       error: false,
       items: [],
-      fakeDataSource: listViewDataSource,
+      dataSource: ds.cloneWithRows([]),
     });
 
     fetchIslands({token: '', search: search})
     .then(response => response.json())
     .then(object => {
       return object.data.islands.map(island => { 
-        return(
-          {"islandOwner": island.accountInfo.switchID, "location": island.location, "hashTagDescription": island.hashTagDescription, "createTime": island.createTime}
-        ) 
+        return new IslandModel(island.id, island.accountInfo.switchID, island.location, island.hashTagDescription, island.createTime)
       })
     })
     .then(islands => {
@@ -70,8 +70,8 @@ export default class Islands extends React.Component<Props, State> {
       this.setState({
         loading: false,
         error: false,
-        items: [],
-        fakeDataSource: listViewDataSource,
+        items: islands,
+        dataSource: ds.cloneWithRows(islands),
       });
     })
     .catch(error => {
@@ -80,9 +80,14 @@ export default class Islands extends React.Component<Props, State> {
         loading: false,
         error: true,
         items: [],
-        fakeDataSource: listViewDataSource,
+        dataSource: ds.cloneWithRows([]),
       });
     });
+  }
+
+  handleItemOnPress = (rowID: any) => {
+    console.log(this.state.items[rowID]);
+    this.props.navigator.push('IslandDetail')
   }
 
   render() {
@@ -99,12 +104,18 @@ export default class Islands extends React.Component<Props, State> {
     }
 
   	return (
-	 //  <View>
-		// <Text>Islands page...</Text>
-	 //  </View>
        <ListView
-        dataSource={this.state.fakeDataSource!}
-        renderRow={(rowData) => <Text>{rowData}</Text>}
+        enableEmptySections={true}
+        dataSource={this.state.dataSource!}
+        renderRow={(rowData,sectionID, rowID, highlightRow) => {
+         return(
+           <View>
+             <TouchableOpacity onPress={() => this.handleItemOnPress(rowID)}>
+               <Text>{rowData.islandOwner}</Text>
+             </TouchableOpacity>
+           </View>
+         ); 
+        }}
       />
   	);
   }

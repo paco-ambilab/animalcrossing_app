@@ -17,7 +17,7 @@ type Props = {
 	style?: StyleSheet,
 }
 
-export default class User extends React.Component<Props, State> {
+export default class BuyDetail extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
@@ -43,14 +43,14 @@ export default class User extends React.Component<Props, State> {
   	if (this.state.error) {
       return (
       	<View>
-          <Text>Load Page Failure...</Text>
+          <Text>BuyDetail Page Failure...</Text>
         </View>
       );
     }
 
   	return (
 	  <View>
-		  <Text>User page...</Text>
+		  <Text>BuyDetail page...</Text>
 	  </View>
   	);
   }
