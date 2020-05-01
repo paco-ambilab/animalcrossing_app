@@ -96,6 +96,25 @@ export default class Islands extends React.Component<Props, State> {
     });
   }
 
+  flatListHeader = () => {
+    return (
+      <View>
+        <IslandHeader number="25" unit="個" text="當前開放島嶼" image={require('../assets/icon.png')} />
+        <View style={{flexDirection: "row",alignContent:'stretch', paddingLeft: 20, paddingTop: 10, paddingRight: 20}}>
+          <View style={{flex: 1}}>
+            <Text style={styles.text}>特産/特性</Text>
+          </View>
+          <View style={{flex: 1}}>
+            <Text style={styles.text}>位置</Text>
+          </View>
+          <View style={{flex: 1}}>
+            <Text style={styles.text}>開放時間</Text>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
   render() {
 
   	const { islandsForItem, onPressIsland, style } = this.props;
@@ -110,26 +129,13 @@ export default class Islands extends React.Component<Props, State> {
     }
 
   	return (
-      <SafeAreaView style={styles.container}>
-        <IslandHeader number="25" unit="個" text="當前開放島嶼" image={require('../assets/icon.png')} />
-          <View style={{flexDirection: "row",alignContent:'stretch', paddingLeft: 20, paddingTop: 10, paddingRight: 20}}>
-            <View style={{flex: 1}}>
-              <Text style={styles.text}>   島主</Text>
-            </View>
-            <View style={{flex: 1}}>
-              <Text style={styles.text}>開放時間</Text>
-            </View>
-            <View style={{flex: 1}}>
-              <Text style={styles.text}>特産/特性</Text>
-            </View>
-            <View style={{flex: 1}}>
-              <Text style={styles.text}>位置</Text>
-            </View>
-          </View>
+      <View style={styles.container}>
+        
         <FlatList style={styles.container}
           data={this.state.items}
           refreshing={this.state.loading}
           onRefresh={this.renderRefreshControl}
+          ListHeaderComponent= {this.flatListHeader}
           renderItem={({item, index, separators}) => {
             const island = item as IslandModel
             return(
@@ -142,7 +148,7 @@ export default class Islands extends React.Component<Props, State> {
           }}
           maxToRenderPerBatch={10}
         />
-      </SafeAreaView>
+      </View>
   	);
   }
 }
@@ -157,14 +163,14 @@ const styles = StyleSheet.create({
     height:80,
     backgroundColor: '#f9c2ff',
     paddingTop: 10,
-    paddingLeft: 20,
+    paddingLeft: 10,
     paddingRight: 20,
     marginVertical: 7,
     marginHorizontal: 15,
   },
   text: {
     color: "grey",
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: "bold",
   },
 })

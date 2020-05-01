@@ -52,31 +52,31 @@ const styles = StyleSheet.create({
     backgroundColor: 'powderblue'
   },
   image: {
-    width: 220,
-    height: 220,
+    width: 190,
+    height: 160,
     position: "absolute",
     right: 20,
-    bottom: 0,
+    bottom: 20,
     justifyContent: "center"
   },
   numberTextStyle: {
     color: "grey",
-    fontSize: 50,
+    fontSize: 30,
     fontWeight: "bold",
   },
   unitTextStyle: {
     color: "grey",
-    fontSize: 30,
+    fontSize: 16,
     fontWeight: "bold",
   },
   text: {
     color: "grey",
-    fontSize: 30,
+    fontSize: 16,
     fontWeight: "bold",
   },
   titleLayout: {
      position: "absolute",
-     left: 80,
+     left: 50,
      bottom: 60,
   },
   titleLayout1: {
