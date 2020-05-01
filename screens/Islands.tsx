@@ -83,6 +83,10 @@ export default class Islands extends React.Component<Props, State> {
     this.props.navigator.push('IslandDetail')
   }
 
+  handleOnCreateIsland = () => {
+
+  }
+
   renderRefreshControl = () => {
     this.setState({ loading: true })
 
@@ -90,7 +94,6 @@ export default class Islands extends React.Component<Props, State> {
       loading: false, 
       items : this.state.items 
     });
-
   }
 
   render() {
@@ -108,19 +111,33 @@ export default class Islands extends React.Component<Props, State> {
 
   	return (
       <SafeAreaView style={styles.container}>
-      <IslandHeader text="xxxx" image={require('../assets/icon.png')} />
-      <FlatList style={styles.container}
+        <IslandHeader number="25" unit="個" text="當前開放島嶼" image={require('../assets/icon.png')} />
+          <View style={{flexDirection: "row",alignContent:'stretch', paddingLeft: 20, paddingTop: 10, paddingRight: 20}}>
+            <View style={{flex: 1}}>
+              <Text style={styles.text}>   島主</Text>
+            </View>
+            <View style={{flex: 1}}>
+              <Text style={styles.text}>開放時間</Text>
+            </View>
+            <View style={{flex: 1}}>
+              <Text style={styles.text}>特産/特性</Text>
+            </View>
+            <View style={{flex: 1}}>
+              <Text style={styles.text}>位置</Text>
+            </View>
+          </View>
+        <FlatList style={styles.container}
           data={this.state.items}
           refreshing={this.state.loading}
           onRefresh={this.renderRefreshControl}
           renderItem={({item, index, separators}) => {
             const island = item as IslandModel
             return(
-             <View style={styles.item}>
-               <TouchableOpacity onPress={() => this.handleItemOnPress(index)}>
-                 <Text>{island.islandOwner}</Text>
-               </TouchableOpacity>
-             </View>
+              <View style={styles.item}>
+                <TouchableOpacity onPress={() => this.handleItemOnPress(index)}>
+                  <Text>{island.islandOwner}</Text>
+                </TouchableOpacity>
+              </View>
            ); 
           }}
           maxToRenderPerBatch={10}
@@ -137,10 +154,17 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   item: {
-    height: 150,
+    height:80,
     backgroundColor: '#f9c2ff',
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-  }
+    paddingTop: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    marginVertical: 7,
+    marginHorizontal: 15,
+  },
+  text: {
+    color: "grey",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
 })

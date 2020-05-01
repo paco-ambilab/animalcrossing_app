@@ -104,7 +104,21 @@ export default class Buys extends React.Component<Props, State> {
 
     return (
       <SafeAreaView style={styles.container}>
-        <IslandHeader text="xxxx" image={require('../assets/icon.png')} />
+        <IslandHeader number="25" unit="個" text="當前收購項目" image={require('../assets/icon.png')} />
+        <View style={{flexDirection: "row",alignContent:'stretch', paddingLeft: 20, paddingTop: 10, paddingRight: 20}}>
+          <View style={{flex: 1}}>
+            <Text style={styles.text}>   物品/素材</Text>
+          </View>
+          <View style={{flex: 1}}>
+            <Text style={styles.text}>單位價格</Text>
+          </View>
+          <View style={{flex: 1}}>
+            <Text style={styles.text}>數量</Text>
+          </View>
+          <View style={{flex: 1}}>
+            <Text style={styles.text}>島主</Text>
+          </View>
+        </View>
         <FlatList
           data={this.state.items}
           refreshing={this.state.loading}
@@ -132,10 +146,17 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   item: {
-    height: 150,
+    height:80,
     backgroundColor: '#f9c2ff',
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-  }
+    paddingTop: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    marginVertical: 7,
+    marginHorizontal: 15,
+  },
+  text: {
+    color: "grey",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
 })

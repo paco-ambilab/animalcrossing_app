@@ -132,11 +132,11 @@ function Tabs() {
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
-            if (route.name === 'Islands') {
+            if (route.name === '開放進島') {
               iconName = focused
                 ? 'ios-information-circle'
                 : 'ios-information-circle-outline';
-            } else if (route.name === 'Buys') {
+            } else if (route.name === '自由市場') {
               iconName = focused ? 'ios-list-box' : 'ios-list';
             }
 
@@ -149,8 +149,8 @@ function Tabs() {
           inactiveTintColor: 'gray',
         }}
       >
-        <Tab.Screen name="Islands" component={IslandsScreen} />
-        <Tab.Screen name="Buys" component={BuysScreen} />
+        <Tab.Screen name="開放進島" component={IslandsScreen} />
+        <Tab.Screen name="自由市場" component={BuysScreen} />
       </Tab.Navigator>
   );
 }

@@ -3,6 +3,8 @@ import { TouchableOpacity, View, Image, Text, StyleSheet, ImageBackground } from
 
 interface Props {
   text?: string,
+  number?: string,
+  unit?: string,
   image: any,
 }
 
@@ -21,7 +23,12 @@ export default class IslandHeader extends React.Component<Props, State> {
     return (
       <View style={styles.container}>
         <View style={styles.innerContainer}>
-          <View style={styles.textLayout}>
+          <View style={styles.titleLayout}>
+            <Text>
+              <Text style={styles.numberTextStyle}>{this.props.number}</Text><Text style={styles.unitTextStyle}>  {this.props.unit}</Text>  
+            </Text>
+          </View>
+          <View style={styles.titleLayout1}>
             <Text style={styles.text}>{this.props.text}</Text>
           </View>
           <Image
@@ -35,6 +42,7 @@ export default class IslandHeader extends React.Component<Props, State> {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 25,
     height: 200,
   },
   innerContainer:{
@@ -44,21 +52,36 @@ const styles = StyleSheet.create({
     backgroundColor: 'powderblue'
   },
   image: {
-    width: 100,
-    height: 160,
+    width: 220,
+    height: 220,
     position: "absolute",
     right: 20,
-    bottom: 20,
+    bottom: 0,
     justifyContent: "center"
+  },
+  numberTextStyle: {
+    color: "grey",
+    fontSize: 50,
+    fontWeight: "bold",
+  },
+  unitTextStyle: {
+    color: "grey",
+    fontSize: 30,
+    fontWeight: "bold",
   },
   text: {
     color: "grey",
     fontSize: 30,
     fontWeight: "bold",
   },
-  textLayout: {
+  titleLayout: {
      position: "absolute",
-     left: 20,
+     left: 80,
+     bottom: 60,
+  },
+  titleLayout1: {
+     position: "absolute",
+     left: 30,
      bottom: 20,
   }
 })
