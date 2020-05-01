@@ -28,8 +28,8 @@ const fetchEx = (url="", params={}, timeout=20000) => {
 }
 
 type FetchIslandsParams = {
-  token: String,
-  search: String,
+  token: string,
+  search: string,
 }
 
 const getCommonHeaders = (token='') => {
@@ -77,8 +77,8 @@ function fetchIslands(params: FetchIslandsParams) {
 }
 
 type FetchBuysParams = {
-  token: String,
-  search: String,
+  token: string,
+  search: string,
 }
 
 
@@ -119,7 +119,7 @@ function fetchBuys(params: FetchBuysParams) {
 }
 
 type CreateIslandParams = {
-  token: String,
+  token: string,
 }
 
 function createIsland(params: CreateIslandParams) {
@@ -127,7 +127,7 @@ function createIsland(params: CreateIslandParams) {
 }
 
 type EnqueueIslandParams = {
-  token: String,
+  token: string,
 }
 
 function enqueueIsland(params: EnqueueIslandParams) {
@@ -135,7 +135,7 @@ function enqueueIsland(params: EnqueueIslandParams) {
 }
 
 type CreateBuyParams = {
-  token: String,
+  token: string,
 }
 
 function createBuy(params: CreateBuyParams) {
@@ -143,7 +143,7 @@ function createBuy(params: CreateBuyParams) {
 }
 
 type EnqueueBuyParams = {
-  token: String,
+  token: string,
 }
 
 function enqueueBuy(params: EnqueueBuyParams) {
@@ -151,7 +151,7 @@ function enqueueBuy(params: EnqueueBuyParams) {
 }
 
 type FetchAccountInfoParams = {
-  token: String,
+  token: string,
 }
 
 function fetchAccountInfo(params: FetchAccountInfoParams) {
@@ -159,7 +159,7 @@ function fetchAccountInfo(params: FetchAccountInfoParams) {
 }
 
 type SignInParams = {
-  token: String,
+  token: string,
 }
 
 function login(params: SignInParams) {
@@ -167,7 +167,7 @@ function login(params: SignInParams) {
 }
 
 type CreateAccountParams = {
-  token: String,
+  token: string,
 }
 
 function createAccount(params: CreateAccountParams) {

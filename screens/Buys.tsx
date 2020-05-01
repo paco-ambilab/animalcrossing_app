@@ -13,8 +13,8 @@ import {
 } from 'react-native';
 
 import BuyModel from '../models/BuyModel';
-
 import { fetchBuys } from '../utils/api';
+import IslandHeader from '../components/IslandHeader';
 
 type State = {
   loading: Boolean,
@@ -103,23 +103,39 @@ export default class Buys extends React.Component<Props, State> {
     }
 
     return (
-      <SafeAreaView>
-       <FlatList
-        data={this.state.items}
-        refreshing={this.state.loading}
-        onRefresh={this.renderRefreshControl}
-        renderItem={({item, index, separators}) => {
-          const buy = item as BuyModel
-          return(
-           <View>
-             <TouchableOpacity onPress={() => this.handleItemOnPress(index)}>
-               <Text>{buy.itemName}</Text>
-             </TouchableOpacity>
-           </View>
-         ); 
-        }}
-      />
-    </SafeAreaView>
+      <SafeAreaView style={styles.container}>
+        <IslandHeader text="xxxx" image={require('../assets/icon.png')} />
+        <FlatList
+          data={this.state.items}
+          refreshing={this.state.loading}
+          onRefresh={this.renderRefreshControl}
+          renderItem={({item, index, separators}) => {
+            const buy = item as BuyModel
+            return(
+             <View style={styles.item}>
+               <TouchableOpacity onPress={() => this.handleItemOnPress(index)}>
+                 <Text>{buy.itemName}</Text>
+               </TouchableOpacity>
+             </View>
+           ); 
+          }}
+        />
+      </SafeAreaView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    alignSelf: 'stretch',
+  },
+  item: {
+    height: 150,
+    backgroundColor: '#f9c2ff',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  }
+})

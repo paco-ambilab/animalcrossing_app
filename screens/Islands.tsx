@@ -13,8 +13,8 @@ import {
 } from 'react-native';
 
 import IslandModel from '../models/IslandModel';
-
 import { fetchIslands } from '../utils/api';
+import IslandHeader from '../components/IslandHeader';
 
 type State = {
   loading: Boolean,
@@ -107,23 +107,40 @@ export default class Islands extends React.Component<Props, State> {
     }
 
   	return (
-      <SafeAreaView>
-       <FlatList
-        data={this.state.items}
-        refreshing={this.state.loading}
-        onRefresh={this.renderRefreshControl}
-        renderItem={({item, index, separators}) => {
-          const island = item as IslandModel
-          return(
-           <View>
-             <TouchableOpacity onPress={() => this.handleItemOnPress(index)}>
-               <Text>{island.islandOwner}</Text>
-             </TouchableOpacity>
-           </View>
-         ); 
-        }}
-      />
-    </SafeAreaView>
+      <SafeAreaView style={styles.container}>
+      <IslandHeader text="xxxx" image={require('../assets/icon.png')} />
+      <FlatList style={styles.container}
+          data={this.state.items}
+          refreshing={this.state.loading}
+          onRefresh={this.renderRefreshControl}
+          renderItem={({item, index, separators}) => {
+            const island = item as IslandModel
+            return(
+             <View style={styles.item}>
+               <TouchableOpacity onPress={() => this.handleItemOnPress(index)}>
+                 <Text>{island.islandOwner}</Text>
+               </TouchableOpacity>
+             </View>
+           ); 
+          }}
+          maxToRenderPerBatch={10}
+        />
+      </SafeAreaView>
   	);
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    alignSelf: 'stretch',
+  },
+  item: {
+    height: 150,
+    backgroundColor: '#f9c2ff',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  }
+})
