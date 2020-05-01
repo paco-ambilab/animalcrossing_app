@@ -20,7 +20,6 @@ type State = {
   loading: Boolean,
   error: Boolean,
   items: IslandModel[],
-  dataSource?: ListViewDataSource,
 }
 
 type Props = {
@@ -29,9 +28,6 @@ type Props = {
 	islandsForItem?: IslandModel[],
 	onPressIsland?: (id: String) => void,
 }
-
-// const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-// const listViewDataSource = ds.cloneWithRows(['row 1', 'row 2', 'row 3', 'row 4']);
 
 export default class Islands extends React.Component<Props, State> {
 
