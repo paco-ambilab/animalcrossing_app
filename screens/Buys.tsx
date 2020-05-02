@@ -9,7 +9,8 @@ import {
   ActivityIndicator, 
   Platform ,
   TouchableOpacity,
-  SafeAreaView
+  SafeAreaView,
+  StatusBar
 } from 'react-native';
 
 import BuyModel from '../models/BuyModel';
@@ -95,6 +96,7 @@ export default class Buys extends React.Component<Props, State> {
   flatListHeader = () => {
     return (
       <View>
+        <StatusBar barStyle="dark-content" backgroundColor="#0000"/>
         <IslandHeader number="25" unit="個" text="當前收購項目" image={require('../assets/icon.png')} />
         <View style={{flexDirection: "row",alignContent:'stretch', paddingLeft: 20, paddingTop: 10, paddingRight: 20}}>
           <View style={{flex: 1}}>
@@ -149,6 +151,7 @@ export default class Buys extends React.Component<Props, State> {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#FEF6E6',
     flex: 1,
     flexDirection: "column",
     alignSelf: 'stretch',

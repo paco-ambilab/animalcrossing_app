@@ -9,7 +9,8 @@ import {
   ActivityIndicator, 
   Platform ,
   TouchableOpacity,
-  SafeAreaView
+  SafeAreaView,
+  StatusBar,
 } from 'react-native';
 
 import IslandModel from '../models/IslandModel';
@@ -99,6 +100,7 @@ export default class Islands extends React.Component<Props, State> {
   flatListHeader = () => {
     return (
       <View>
+        <StatusBar barStyle="dark-content" backgroundColor="#0000"/>
         <IslandHeader number="25" unit="個" text="當前開放島嶼" image={require('../assets/icon.png')} />
         <View style={{flexDirection: "row",alignContent:'stretch', paddingLeft: 20, paddingTop: 10, paddingRight: 20}}>
           <View style={{flex: 1}}>
@@ -130,7 +132,6 @@ export default class Islands extends React.Component<Props, State> {
 
   	return (
       <View style={styles.container}>
-        
         <FlatList style={styles.container}
           data={this.state.items}
           refreshing={this.state.loading}
@@ -155,6 +156,7 @@ export default class Islands extends React.Component<Props, State> {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#FEF6E6',
     flex: 1,
     flexDirection: "column",
     alignSelf: 'stretch',

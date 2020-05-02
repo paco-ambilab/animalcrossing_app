@@ -35,7 +35,9 @@ function IslandsScreen({ navigation, route }) {
     navigation.setOptions({
       headerTitle: () => <Text>Islands</Text>,
       headerRight: () => (
-        <ImageButton onPress={handleHeaderRightOnPress} imageSource={require('./assets/icon.png')} />
+        <View style={{marginRight: 10}}>
+          <ImageButton onPress={handleHeaderRightOnPress} imageSource={require('./assets/icon.png')}/>
+        </View>
       ),
     });
   }, [navigation, route]);
@@ -54,9 +56,11 @@ function IslandDetailScreen({ navigation, route }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: () => <Text>IslandDetail</Text>,
+      headerTitle: () => <Text>島嶼詳情</Text>,
       headerRight: () => (
-        <ImageButton onPress={handleHeaderRightOnPress} imageSource={require('./assets/icon.png')} />
+        <View style={{marginRight: 10}}>
+          <ImageButton onPress={handleHeaderRightOnPress} imageSource={require('./assets/icon.png')}/>
+        </View>
       ),
     });
   }, [navigation, route]);
@@ -77,7 +81,9 @@ function BuysScreen({ navigation, route }) {
     navigation.setOptions({
       headerTitle: () => <Text>Buys</Text>,
       headerRight: () => (
-        <ImageButton onPress={handleHeaderRightOnPress} imageSource={require('./assets/icon.png')} />
+        <View style={{marginRight: 10}}>
+          <ImageButton onPress={handleHeaderRightOnPress} imageSource={require('./assets/icon.png')}/>
+        </View>
       ),
     });
   }, [navigation, route]);
@@ -96,12 +102,16 @@ function BuyDetailScreen({ navigation, route }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: () => <Text>BuyDetail</Text>,
+      headerTitle: () => <Text>收購項目</Text>,
       headerRight: () => (
-        <ImageButton onPress={handleHeaderRightOnPress} imageSource={require('./assets/icon.png')} />
+        <View style={{marginRight: 10}}>
+          <ImageButton onPress={handleHeaderRightOnPress} imageSource={require('./assets/icon.png')}/>
+        </View>
       ),
     });
   }, [navigation, route]);
+
+
 
   return (
     <BuyDetail navigator={navigation}/>
@@ -145,7 +155,8 @@ function Tabs() {
           },
         })}
         tabBarOptions={{
-          activeTintColor: 'tomato',
+          labelStyle: {fontWeight: "bold"},
+          activeTintColor: '#58D421',
           inactiveTintColor: 'gray',
         }}
       >
@@ -156,10 +167,29 @@ function Tabs() {
 }
 
 export default function AppNavigator() {
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="IslandsTab" component={Tabs} />
+        <Stack.Screen name="IslandsTab" 
+        component={Tabs} 
+        options={{
+          headerStyle: {
+            // shadowOffset: { height: 0, width: 0 },
+            // backgroundColor: '#FEF6E6',
+          },
+          headerTitleAlign: 'center',
+          headerShown: true, 
+          title: '聊聊動森',
+          headerRight: () => {
+            return (
+              <View style={{marginRight: 10}}>
+              <ImageButton onPress={() => {}} imageSource={require('./assets/icon.png')}/>
+              </View>
+            );
+          }
+        }}
+        />
         <Stack.Screen name="IslandDetail" component={IslandDetailScreen} />
         <Stack.Screen name="BuyDetail" component={BuyDetailScreen} />
         <Stack.Screen name="User" component={UserScreen} />

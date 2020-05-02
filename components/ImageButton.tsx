@@ -34,9 +34,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
   image: {
-    width: 50,
-    height: 50,
-    flex: 1,
+    width: 30,
+    height: 30,
     resizeMode: "cover",
     justifyContent: "center"
   },

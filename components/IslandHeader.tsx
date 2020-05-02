@@ -42,7 +42,6 @@ export default class IslandHeader extends React.Component<Props, State> {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 25,
     height: 200,
   },
   innerContainer:{
