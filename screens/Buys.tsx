@@ -19,8 +19,8 @@ import IslandHeader from '../components/IslandHeader';
 import Hashtag from '../components/Hashtag';
 
 type State = {
-  loading: Boolean,
-  error: Boolean,
+  loading: boolean,
+  error: boolean,
   items: BuyModel[],
 }
 
