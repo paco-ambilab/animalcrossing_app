@@ -15,10 +15,12 @@ import {
 } from 'react-native';
 
 import Hashtag from '../components/Hashtag';
+import ButtonEx from '../components/ButtonEx';
 
 type State = {
   loading: boolean,
   error: boolean,
+  isInQueue: boolean,
   isInvited: boolean,
   isIslandOwner: boolean,
   usersInIsland: any[],
@@ -30,7 +32,7 @@ type Props = {
   navigator?: any,
 }
 
-export default class IslandDetail extends React.Component<Props, State> {
+export default class IslandDetail extends React.Component {
 
   constructor(props: Props) {
     super(props);
@@ -41,6 +43,7 @@ export default class IslandDetail extends React.Component<Props, State> {
   state = {
     loading: false,
     error: false,
+    isInQueue: false,
     isInvited: false,
     isIslandOwner: false,
     usersInIsland: [],
@@ -51,19 +54,19 @@ export default class IslandDetail extends React.Component<Props, State> {
     this.setState({
       loading: false,
       error: false,
-      isInvited: true,
+      isInQueue: false,
+      isInvited: false,
       isIslandOwner: true,
-      usersInIsland: [1,2,3],
-      queue: [1,2,3],
+      usersInIsland: [0,1,2],
+      queue: [0,1,2],
     });
   }
 
   renderRefreshControl = () => {
-    this.setState({ loading: true })
-
     this.setState({ 
       loading: false,
       isInvited: this.state.isInvited,
+      isInQueue: this.state.isInQueue,
       isIslandOwner: this.state.isIslandOwner,
       usersInIsland: this.state.usersInIsland,
       queue: this.state.queue,
@@ -71,26 +74,72 @@ export default class IslandDetail extends React.Component<Props, State> {
 
   }
 
+  handleEnterQueue = () => {
+    this.setState({ loading: true, isInQueue: true})
+  }
+
+  handleLeaveQueue = (id: string) => {
+    this.setState({ loading: true, isInQueue: false })
+  }
+
+  handleRemoveInIsland = (id: string) => {
+    console.log("handleRemoveInIsland"+id) 
+    var newUsersInIsland = this.state.usersInIsland.filter((value, index, arr) => {
+      return id != value
+    })
+    this.setState({ loading: true, queue: this.state.queue, usersInIsland: newUsersInIsland})
+  }
+
+  handleRemoveInQueue = (id: string) => {
+    console.log("handleRemoveInQueue"+id)
+    var newQueue = this.state.queue
+    newQueue = newQueue.filter((value, index, arr) => {
+      return id != value
+    })
+    this.setState({ loading: true, queue: newQueue, usersInIsland: this.state.usersInIsland})
+  }
+
+  handleInvite = (id: string) => {
+    var newUsersInIsland = this.state.usersInIsland
+    newUsersInIsland.push(1)
+    var newQueue = this.state.queue
+    newQueue = newQueue.splice(1)
+    this.setState({ loading: true, isInvited: true, queue: newQueue, usersInIsland: newUsersInIsland })
+  }
+
+  renderUsersInIsland = () => {
+    return (
+      {
+
+      }
+    );
+  }
+
   flatListHeader = () => {
 
-    this.usersInIslandViews = [];
+    // this.usersInIslandViews = [];
 
-    for(let i = 0; i < 3; i++) {
-      this.usersInIslandViews.push(
-        <View style={{flexDirection: "row",alignSelf: 'stretch'}}>
-          <Text style={{margin: 5}}>用戶 {i + 1}</Text>
-          { this.state.isIslandOwner && (
-            <View style={{flexDirection: "row",alignSelf: 'stretch'}}>
-              <View style={{marginRight: 5}}>
-                <Button color="#DF5F33" title='remove'/>
-              </View>
-            </View>
-          )}
-        </View>
-      );
-    }
-
+    // for(let i = 0; i < this.state.usersInIsland.length; i++) {
+    //   this.usersInIslandViews.push(
+    //     <View style={{flexDirection: "row",alignSelf: 'stretch'}}>
+    //       <Text style={{margin: 5, marginRight: 10}}>用戶 {i + 1}</Text>
+    //       { this.state.isIslandOwner && (
+    //         <View style={{flexDirection: "row", alignSelf: 'stretch'}}>
+    //           <ButtonEx 
+    //             title='清除' 
+    //             backgroundColor="#DF5F33" 
+    //             textColor="#FFFFFF" 
+    //             onPress={() => {
+    //               this.handleRemoveInIsland(i)
+    //             }}
+    //           />
+    //         </View>
+    //       )}
+    //     </View>
+    //   );
+    // }
     return (
+
       <View>
         <View style={styles.item} >
           <StatusBar barStyle="dark-content" backgroundColor="#0000"/>
@@ -117,15 +166,43 @@ export default class IslandDetail extends React.Component<Props, State> {
 
         <View>
           <Text style={{marginTop: 5}}>島上玩家:</Text>
-            { this.usersInIslandViews }
-          <Text style={{marginTop: 5}}>隊列玩家:</Text>
+            {true && ( this.state.usersInIsland.map(item => 
+              <View key={item} style={{flexDirection: "row",alignSelf: 'stretch'}}>
+                <Text style={{margin: 5, marginRight: 10}}>用戶</Text>
+                { this.state.isIslandOwner && (
+                  <View style={{flexDirection: "row", alignSelf: 'stretch'}}>
+                    <ButtonEx 
+                      title='清除' 
+                      backgroundColor="#DF5F33" 
+                      textColor="#FFFFFF" 
+                      onPress={() => {
+                        this.handleRemoveInIsland(item)
+                      }}
+                    />
+                  </View>
+                )}
+              </View>
+            ))}
+
+          <View style={{flexDirection: "row",alignSelf: 'stretch', marginTop: 5}}>  
+            <Text style={{marginTop: 5, marginRight: 10}}>隊列玩家:</Text>
+            { !this.state.isIslandOwner && !this.state.isInvited && !this.props.isInQueue && (
+              <ButtonEx title='排隊' backgroundColor="#58B231" textColor="#FFFFFF" onPress={() => {
+                this.handleEnterQueue()
+              }}/>
+            )} 
+            { !this.state.isIslandOwner && !this.state.isInvited && this.props.isInQueue && (
+              <ButtonEx title='離開' backgroundColor="#DF5F33" textColor="#FFFFFF" onPress={() => {
+                this.handleLeaveQueue(1)
+              }}/>
+            )}
+          </View>
         </View>
       </View>
     );
   }
 
   render() {
-
   	const { style } = this.props;
     const { loading, error } = this.state;
 
@@ -149,14 +226,28 @@ export default class IslandDetail extends React.Component<Props, State> {
             return(
               <View style={styles.item}>
                 <View style={{flexDirection: "row",alignSelf: 'stretch'}}>
-                  <Text style={{marginRight: 5}}>用戶 {index + 3}</Text>
+                  <Text style={{marginRight: 10}}>用戶 {index + 3}</Text>
                   { this.state.isIslandOwner && (
                     <View style={{flexDirection: "row",alignSelf: 'stretch'}}>
-                      <View style={{marginRight: 5}}>
-                        <Button color="#58B231" title='Invite'/>
+                      <View style={{marginRight: 10}}>
+                        <ButtonEx 
+                          title='邀請' 
+                          backgroundColor="#58B231" 
+                          textColor="#FFFFFF" 
+                          onPress={() => {
+                            this.handleInvite(1)
+                          }}
+                        />
                       </View>
-                      <View style={{marginRight: 5}}>
-                        <Button color="#DF5F33" title='remove'/>
+                      <View style={{marginRight: 10}}>
+                        <ButtonEx 
+                          title='清除' 
+                          backgroundColor="#DF5F33" 
+                          textColor="#FFFFFF" 
+                          onPress={() => {
+                            this.handleRemoveInQueue(index)
+                          }}
+                        />
                       </View>
                     </View>
                   )}
@@ -191,5 +282,5 @@ const styles = StyleSheet.create({
     color: "grey",
     fontSize: 14,
     fontWeight: "bold",
-  },
+  }
 })
