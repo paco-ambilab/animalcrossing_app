@@ -156,7 +156,7 @@ function Tabs() {
         })}
         tabBarOptions={{
           labelStyle: {fontWeight: "bold"},
-          activeTintColor: '#58D421',
+          activeTintColor: '#58B231',
           inactiveTintColor: 'gray',
         }}
       >

@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   titleLayout: {
      position: "absolute",
      left: 50,
-     bottom: 60,
+     bottom: 50,
   },
   titleLayout1: {
      position: "absolute",
